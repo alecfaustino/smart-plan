@@ -33,6 +33,19 @@ const userData: Prisma.UserCreateInput[] = [
       ],
     },
   },
+  {
+    name: "Bob2",
+    email: "bob2@prisma.io",
+    posts: {
+      create: [
+        {
+          title: "uniquepost",
+          content: "http://uniquepost.com",
+          published: true,
+        },
+      ],
+    },
+  },
 ];
 
 export async function main() {
