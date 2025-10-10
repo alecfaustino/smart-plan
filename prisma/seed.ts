@@ -2,11 +2,11 @@ import { PrismaClient, Prisma } from "../app/generated/prisma";
 
 const prisma = new PrismaClient();
 
-const userData: Prisma.UsersCreateInput[] = [
+const userData: Prisma.UserCreateInput[] = [
   {
     name: "Alec",
     email: "alec@test.com",
-    Tasks: {
+    tasks: {
       create: [
         { title: "Wash the dishes",
           description: "Use the new sponge I bought last week",
@@ -18,7 +18,7 @@ const userData: Prisma.UsersCreateInput[] = [
   {
     name: "Bob",
     email: "bob@prisma.io",
-    Tasks: {
+    tasks: {
       create: [
         {
           title: "Follow Prisma on Twitter",
@@ -30,7 +30,7 @@ const userData: Prisma.UsersCreateInput[] = [
   {
     name: "Bob2",
     email: "bob2@prisma.io",
-    Tasks: {
+    tasks: {
       create: [
         {
           title: "Complete the project report",
@@ -43,7 +43,7 @@ const userData: Prisma.UsersCreateInput[] = [
 
 export async function main() {
   for (const u of userData) {
-    await prisma.users.upsert({ where: { email: u.email }, update: {}, create: u });
+    await prisma.user.upsert({ where: { email: u.email }, update: {}, create: u });
   }
 }
 

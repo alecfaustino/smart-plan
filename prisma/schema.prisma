@@ -14,17 +14,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id           String         @id @default(uuid())
   email        String         @unique
   name         String
   // TODO: add password hash in a future iteration
   createdAt    DateTime       @default(now())
-  Tasks        Tasks[]
-  UserSettings UserSettings[]
+  tasks        Task[]
+  userSettings UserSettings[]
 }
 
-model Tasks {
+model Task {
   id            String    @id @default(uuid())
   title         String
   description   String?
@@ -33,7 +33,7 @@ model Tasks {
   estimatedTime Int? // in minutes
   dueDate       DateTime?
   userId        String
-  user          Users     @relation(fields: [userId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
   createdAt     DateTime  @default(now())
 }
 
@@ -46,7 +46,7 @@ enum Priority {
 
 model UserSettings {
   user_id         String @id @default(uuid())
-  user            Users  @relation(fields: [user_id], references: [id])
+  user            User   @relation(fields: [user_id], references: [id])
   workWindowStart Int    @default(9) // in hours (24-hour format)
   workWindowEnd   Int    @default(17) // in hours (24-hour format
 }
