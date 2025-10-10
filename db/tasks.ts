@@ -1,8 +1,9 @@
+import { Priority } from "@/app/generated/prisma/wasm";
 import prisma from "@/lib/prisma";
 
 // Create Task
 export async function createTask(title: string, 
-  userId: string, dueDate?: Date, description?: string) {
+  userId: string, dueDate?: Date, description?: string, priority?: Priority) {
   return await prisma.task.create({
     data: {
       title,
@@ -10,6 +11,7 @@ export async function createTask(title: string,
       // optional fields
       ...(description && { description }),
       ...(dueDate && { dueDate }),
+      ...(priority && { priority }),
     },
   });
 }
@@ -30,13 +32,14 @@ export async function getTaskById(id: string) {
 }
 
 // Update Task
-export async function updateTask(id: string, title: string, description?: string, dueDate?: Date) {
+export async function updateTask(id: string, title: string, description?: string, dueDate?: Date, priority?: Priority) {
   return await prisma.task.update({
     where: { id },
     data: {
       title,
       ...(description && { description }),
       ...(dueDate && { dueDate }),
+      ...(priority && { priority }),
     },
   });
 }
