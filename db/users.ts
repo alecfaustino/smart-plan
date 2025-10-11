@@ -24,7 +24,7 @@ export async function getUserById(id: string) {
 }
 
 // Update User
-export async function updateUser(id: string, name: string, email: string) {
+export async function updateUser(id: string, name?: string, email?: string) {
   return await prisma.user.update({
     where: { id },
     data: { name, email },

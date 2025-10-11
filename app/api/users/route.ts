@@ -1,7 +1,7 @@
 // api logic for all users routes
 
 
-import { createUser, getUserById, getUsers } from "@/db/users";
+import { createUser, getUsers } from "@/db/users";
 import { NextResponse, NextRequest } from "next/server";
 
 // get all users
