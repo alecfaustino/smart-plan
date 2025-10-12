@@ -11,6 +11,7 @@ export async function GET() {
 }
 
 // create a new user
+// TODO use bcrypt to hash password before saving
 export async function POST(request: NextRequest) {
   const { name, email, passwordHash } = await request.json();
   const newUser = await createUser(name, email, passwordHash);
