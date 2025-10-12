@@ -12,8 +12,8 @@ export async function GET() {
 
 // create a new user
 export async function POST(request: NextRequest) {
-  const { name, email } = await request.json();
-  const newUser = await createUser(name, email);
+  const { name, email, passwordHash } = await request.json();
+  const newUser = await createUser(name, email, passwordHash);
   return NextResponse.json(newUser);
 }
 

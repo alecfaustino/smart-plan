@@ -6,6 +6,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Alec",
     email: "alec@test.com",
+    passwordHash: "password123",
     tasks: {
       create: [
         { title: "Wash the dishes",
@@ -18,6 +19,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Bob",
     email: "bob@prisma.io",
+    passwordHash: "securepassword",
     tasks: {
       create: [
         {
@@ -30,6 +32,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Bob2",
     email: "bob2@prisma.io",
+    passwordHash: "securepassword2",
     tasks: {
       create: [
         {

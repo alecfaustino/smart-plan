@@ -18,7 +18,7 @@ model User {
   id           String         @id @default(uuid())
   email        String         @unique
   name         String
-  // TODO: add password hash in a future iteration
+  passwordHash String
   createdAt    DateTime       @default(now())
   tasks        Task[]
   userSettings UserSettings[]
