@@ -1,7 +1,8 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUsers } from "@/db/users";
 import { compare } from "bcryptjs";
+import { JWT } from "next-auth/jwt";
 
 const handler = NextAuth({
   providers: [
@@ -18,7 +19,6 @@ const handler = NextAuth({
         // TODO: create a getUserByEmail function in db/users.ts
         const users = await getUsers();
         const user = users.find((user) => user.email === credentials?.email);
-        // TO DO: validation with bcrypt
         if (user && credentials?.password) {
           const isValid = await compare(credentials?.password, user?.passwordHash);
           if (isValid) {
@@ -29,14 +29,28 @@ const handler = NextAuth({
         return null;
 
       }
-
-      // TO DO: add pages for custom sign in page
-      // TO DO: add session: { strategy: "jwt" } for JWT sessions
-
-      // TO DO: add jwt call back to assign user id to token id
-      // TO DO: add session callback to assign token id to session user id
     })
-  ]
+  ],
+  
+  // TO DO: add pages for custom sign in page
+  session: { strategy: "jwt" },
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }: { session: Session, token: JWT }) {
+      if (token) {
+        session.user.id = token.id as string;
+      }
+      return session;
+    }
+  },
+
+  secret: process.env.NEXTAUTH_SECRET
 })
 
 export { handler as GET, handler as POST };
