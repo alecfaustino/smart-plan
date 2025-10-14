@@ -1,7 +1,7 @@
 ### /api/tasks/route.ts
 
-- will contain Get and Post for the user
-- This currently has hard coded id's will need to look into an auth library
+- will contain Get and Post for the user (completed)
+- This currently has hard coded id's will need to look into an auth library (completed - implemented with Nextauth and JWT)
 
 ### /api/tasks/[id]/route.ts
 
