@@ -1,27 +1,29 @@
-import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  console.log("Session:", session);
+  if (!session) {
+    return (
+      <>
+        <h1>You are not logged in</h1>
+        <h2>Please log in to view your tasks</h2>
+      </>
+    );
+  }
+
+  const res = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/users/${session.user.id}`,
+    { cache: "no-store" }
+  );
+  const user = await res.json();
+
+  console.log(user);
   return (
     <>
-      <h1>Home</h1>
+      <h1>This is a temporary Page</h1>
+      <h2>List of tasks of this user: {user.name}</h2>
     </>
   );
 }
-
-// export default async function Home() {
-//   const users = await prisma.user.findMany();
-//   return (
-//     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center -mt-16">
-//       <h1 className="text-4xl font-bold mb-8 font-[family-name:var(--font-geist-sans)] text-[#333333]">
-//         Superblog
-//       </h1>
-//       <ol className="list-decimal list-inside font-[family-name:var(--font-geist-sans)]">
-//         {users.map((user) => (
-//           <li key={user.id} className="mb-2 text-[#555555]">
-//             {user.name}
-//           </li>
-//         ))}
-//       </ol>
-//     </div>
-//   );
-// }

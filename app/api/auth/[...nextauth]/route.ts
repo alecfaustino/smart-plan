@@ -1,10 +1,10 @@
-import NextAuth, { Session } from "next-auth";
+import NextAuth, { AuthOptions, Session, User} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUsers } from "@/db/users";
 import { compare } from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -31,12 +31,13 @@ const handler = NextAuth({
       }
     })
   ],
-  
-  // TO DO: add pages for custom sign in page
-  session: { strategy: "jwt" },
+
+
+    // TO DO: add pages for custom sign in page
+    session: { strategy: "jwt" },
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT, user?: User }) {
       if (user) {
         token.id = user.id;
       }
@@ -51,6 +52,7 @@ const handler = NextAuth({
   },
 
   secret: process.env.NEXTAUTH_SECRET
-})
+}
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
