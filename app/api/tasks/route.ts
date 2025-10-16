@@ -9,6 +9,7 @@ export async function GET() {
   // Check if the response is a string (as expected) or a NextResponse (error case)
   if (response instanceof NextResponse) return response;
   const userId = response as string;
+  console.log("@@@@@@", userId);
   const tasks = await getTasksByUser(userId);
   return NextResponse.json(tasks);
 }
